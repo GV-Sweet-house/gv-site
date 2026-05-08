@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="G&V Sweet House - delivery de doces com carrinho, cupons e pedido pelo WhatsApp."
+    />
+    <meta name="theme-color" content="#ea1d2c" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="G&V Sweet" />
+
+    <title>G&V Sweet House</title>
+
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <nav class="topbar" aria-label="Navegacao principal">
+          <a class="brand" href="#" aria-label="G&V Sweet House">
+            <span class="brand-mark">G&V</span>
+            <span>
+              <strong>Sweet House</strong>
+              <small>Entrega rapida</small>
+            </span>
+          </a>
+
+          <button class="install-btn" id="installButton" type="button" hidden>
+            Instalar
+          </button>
+        </nav>
+
+        <section class="hero-content" aria-labelledby="heroTitle">
+          <p class="eyebrow">Doceria online</p>
+          <h1 id="heroTitle">G&V Sweet House</h1>
+          <p class="hero-copy">Doces artesanais, combos e bolos de pote para pedir agora pelo WhatsApp.</p>
+
+          <div class="hero-actions">
+            <a class="primary-action" href="#menu">Ver cardapio</a>
+            <a class="secondary-action" href="#checkout">Finalizar pedido</a>
+          </div>
+        </section>
+      </header>
+
+      <main>
+        <section class="promo-strip" aria-label="Promocao">
+          <span class="promo-badge">Oferta</span>
+          <strong>Combo 3 doces por R$30</strong>
+          <span>Aproveite antes de finalizar o pedido.</span>
+        </section>
+
+        <section class="content-grid">
+          <div class="menu-area" id="menu">
+            <div class="section-heading">
+              <span>Cardapio</span>
+              <h2>Escolha seus favoritos</h2>
+            </div>
+
+            <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Categorias"></div>
+
+            <div class="product-grid" id="productGrid" aria-live="polite"></div>
+          </div>
+
+          <aside class="cart-panel" id="checkout" aria-labelledby="cartTitle">
+            <div class="cart-header">
+              <div>
+                <span>Seu pedido</span>
+                <h2 id="cartTitle">Carrinho</h2>
+              </div>
+              <strong id="cartCount">0 itens</strong>
+            </div>
+
+            <div class="cart-items" id="cartItems"></div>
+
+            <form class="checkout-form" id="checkoutForm">
+              <label>
+                Nome
+                <input id="customerName" type="text" placeholder="Seu nome" autocomplete="name" required />
+              </label>
+
+              <label>
+                CEP de entrega
+                <div class="coupon-row">
+                  <input
+                    id="customerZip"
+                    type="text"
+                    placeholder="00000-000"
+                    autocomplete="postal-code"
+                    inputmode="numeric"
+                    maxlength="9"
+                  />
+                  <button id="searchZipButton" type="button">Buscar</button>
+                </div>
+              </label>
+
+              <p class="coupon-feedback" id="freightFeedback" role="status"></p>
+
+              <label>
+                Rua
+                <input
+                  id="customerStreet"
+                  type="text"
+                  placeholder="Rua"
+                  autocomplete="address-line1"
+                  required
+                />
+              </label>
+
+              <div class="form-row">
+                <label>
+                  Numero
+                  <input id="customerNumber" type="text" placeholder="123" autocomplete="address-line2" required />
+                </label>
+
+                <label>
+                  Complemento
+                  <input id="customerComplement" type="text" placeholder="Apto, bloco" autocomplete="address-line3" />
+                </label>
+              </div>
+
+              <label>
+                Bairro
+                <input id="customerNeighborhood" type="text" placeholder="Bairro" required />
+              </label>
+
+              <div class="form-row city-row">
+                <label>
+                  Cidade
+                  <input id="customerCity" type="text" placeholder="Cidade" autocomplete="address-level2" required />
+                </label>
+
+                <label>
+                  UF
+                  <input
+                    id="customerState"
+                    type="text"
+                    placeholder="RJ"
+                    autocomplete="address-level1"
+                    maxlength="2"
+                    required
+                  />
+                </label>
+              </div>
+
+              <button class="freight-button" id="calculateFreightButton" type="button">
+                Calcular frete
+              </button>
+
+              <label>
+                Cupom
+                <div class="coupon-row">
+                  <input id="couponInput" type="text" placeholder="Digite seu cupom" autocomplete="off" />
+                  <button id="applyCouponButton" type="button">Aplicar</button>
+                </div>
+              </label>
+
+              <p class="coupon-feedback" id="couponFeedback" role="status"></p>
+
+              <div class="totals" aria-label="Resumo do pedido">
+                <div>
+                  <span>Subtotal</span>
+                  <strong id="subtotalValue">R$0,00</strong>
+                </div>
+                <div>
+                  <span>Taxa de entrega</span>
+                  <strong id="deliveryFeeValue">R$5,00</strong>
+                </div>
+                <div class="discount-row" id="discountRow" hidden>
+                  <span>Desconto</span>
+                  <strong id="discountValue">-R$0,00</strong>
+                </div>
+                <div class="total-row">
+                  <span>Total</span>
+                  <strong id="totalValue">R$5,00</strong>
+                </div>
+              </div>
+
+              <button class="whatsapp-button" id="finishOrderButton" type="submit">
+                Finalizar pelo WhatsApp
+              </button>
+            </form>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="splash-screen" id="splashScreen" aria-hidden="true">
+      <div class="splash-logo">G&V</div>
+      <strong>Sweet House</strong>
+    </div>
+
+    <script src="cupons/cupons.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "G&V Sweet House",
+  "short_name": "G&V Sweet",
+  "description": "Delivery de doces com pedidos pelo WhatsApp.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ea1d2c",
+  "theme_color": "#ea1d2c",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Abrir cardapio",
+      "short_name": "Cardapio",
+      "url": "./index.html#menu"
+    },
+    {
+      "name": "Finalizar pedido",
+      "short_name": "Pedido",
+      "url": "./index.html#checkout"
+    }
+  ]
+}

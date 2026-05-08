@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#ea1d2c"/>
+  <circle cx="256" cy="230" r="132" fill="#fff"/>
+  <path d="M160 246c24 72 168 72 192 0 7 82-31 136-96 136s-103-54-96-136Z" fill="#ffe3e6"/>
+  <text x="256" y="254" text-anchor="middle" font-family="Arial, sans-serif" font-size="86" font-weight="900" fill="#ea1d2c">G&amp;V</text>
+  <path d="M168 350h176" stroke="#fff" stroke-width="34" stroke-linecap="round"/>
+</svg>
