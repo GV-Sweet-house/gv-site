@@ -50,7 +50,7 @@ const products = [
     price: 17,
     category: "Copos",
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502701654678442205/IMG_1244.png?ex=6a00ab79&is=69ff59f9&hm=7b5ca0e76b807de1fbf737ec44846bbb22b4be8dccf69d9b7af68044c78d7bda&=&format=webp&quality=lossless&width=343&height=552",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502701655114907809/IMG_1243.png?ex=6a00ab79&is=69ff59f9&hm=ca7ff7753aed4b63a3183ff643ffd5d1f440b244a684fec3a59497afaab08a9f&=&format=webp&quality=lossless&width=340&height=551",
   },
   {
     id: "bolo-ninho-doce-leite",
