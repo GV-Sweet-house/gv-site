@@ -11,7 +11,7 @@ const categories = ["Todos", "Bolos", "Morangos", "Cookies", "Copos", "Combos"];
 
 const products = [
   {
-    id: "Copo-morango",
+    id: "morango-nutella",
     name: "Morango com Nutella",
     price: 12,
     category: "Morangos",
