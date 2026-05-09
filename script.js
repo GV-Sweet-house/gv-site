@@ -7,40 +7,40 @@ const FREIGHT_PRICE_PER_KM = 3;
 const coupons = window.GV_COUPONS || {};
 const WHATSAPP_NUMBER = "5521992194784";
 
-const categories = ["Todos", "Bolos", "Morangos", "Cookies", "Doces", "Combos"];
+const categories = ["Todos", "Bolos", "Morangos", "Cookies", "Copos", "Combos"];
 
 const products = [
   {
-    id: "morango-nutella",
+    id: "Copo-morango",
     name: "Morango com Nutella",
     price: 12,
     category: "Morangos",
     bestSeller: true,
     image:
-      "https://media.discordapp.net/attachments/1353893440462520533/1502117849945341992/LOGO.png?ex=69fe8bc3&is=69fd3a43&hm=009b32808ecf5690da342ecce35223c9a96b3de3e1dd4041dc25392a607ad338&=&format=webp&quality=lossless&width=968&height=968",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414040897421343/486407127_18475206142064119_4931185641420393779_n.jpg?ex=69ff9f9c&is=69fe4e1c&hm=c0db728217d0f45c4a736bb7d20b621577221264b24c99868c05b854727e389a&=&format=webp",
   },
   {
-    id: "morango-trufado",
-    name: "Morango trufado",
+    id: "coxinha-morango",
+    name: "Morango do Amor",
     price: 12,
     category: "Morangos",
     image:
-      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579374755840/image.jpg?ex=6a0048dd&is=69fef75d&hm=1eb631f2cf33c1d7ea35207ca842984e6a8efe1b373e5fcdc062b4121786a765&=&format=webp&width=414&height=552",
   },
   {
     id: "copo-morango",
     name: "Copo da felicidade de Morango",
     price: 17,
-    category: "Doces",
+    category: "Copos",
     bestSeller: true,
     image:
-      "https://images.unsplash.com/photo-1488477304112-4944851de03d?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502433359857717308/ChatGPT_Image_8_de_mai._de_2026_19_11_31_morango.png?ex=6a005a5a&is=69ff08da&hm=61d3b14a84933db85c4004527d4a40d6542582f8219a45ad59f398e3393a04b1&=&format=webp&quality=lossless&width=202&height=552",
   },
   {
     id: "copo-ferreiro",
     name: "Copo da felicidade de Ferreiro",
     price: 17,
-    category: "Doces",
+    category: "Copos",
     image:
       "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80",
   },
@@ -48,9 +48,9 @@ const products = [
     id: "copo-uva",
     name: "Copo da felicidade de Uva",
     price: 17,
-    category: "Doces",
+    category: "Copos",
     image:
-      "https://images.unsplash.com/photo-1562440499-64c9a111f713?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502433360180674670/ChatGPT_Image_8_de_mai._de_2026_19_11_31.png?ex=6a005a5a&is=69ff08da&hm=b78121ec5e036aaf70ced210c5d649c075d314f5d99244ce42d12ea11040ad76&=&format=webp&quality=lossless&width=205&height=552",
   },
   {
     id: "bolo-ninho-doce-leite",
@@ -72,10 +72,10 @@ const products = [
     id: "banoffe",
     name: "Banoffe",
     price: 17,
-    category: "Bolos",
+    category: "Copos",
     bestSeller: true,
     image:
-      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579601510461/image.jpg?ex=6a0048dd&is=69fef75d&hm=f5e3a4c07592ffe496ae13323b0ad6d0e196c511f12cbb899c2cccbe3161ff30&=&format=webp&width=368&height=552",
   },
   {
     id: "torta-limao",
@@ -86,12 +86,12 @@ const products = [
       "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "torta-limao",
-    name: "Torta de Limao",
+    id: "salada-fruta",
+    name: "Salada de Fruta",
     price: 10,
-    category: "Bolos",
+    category: "Copos",
     image:
-      "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579915952168/image.jpg?ex=6a0048dd&is=69fef75d&hm=3605a1d0d818f6caec9f04d625e85bf276ce6837b157509fb9e45d1a3d75ad67&=&format=webp&width=414&height=552",
   },
   {
     id: "combo-casal",
