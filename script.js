@@ -17,7 +17,7 @@ const products = [
     category: "Morangos",
     bestSeller: true,
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502414040897421343/486407127_18475206142064119_4931185641420393779_n.jpg?ex=69ff9f9c&is=69fe4e1c&hm=c0db728217d0f45c4a736bb7d20b621577221264b24c99868c05b854727e389a&=&format=webp",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414040897421343/486407127_18475206142064119_4931185641420393779_n.jpg?ex=6a04e59c&is=6a03941c&hm=481a0e2a5850d35065fa7d0e797f5a3dc7ecbce3e9f2946a5e305299fd354f45&=&format=webp",
   },
   {
     id: "coxinha-morango",
@@ -25,7 +25,7 @@ const products = [
     price: 12,
     category: "Morangos",
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502414579374755840/image.jpg?ex=6a0048dd&is=69fef75d&hm=1eb631f2cf33c1d7ea35207ca842984e6a8efe1b373e5fcdc062b4121786a765&=&format=webp&width=414&height=552",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579374755840/image.jpg?ex=6a04e61d&is=6a03949d&hm=749484144abe07cd0e900393930d191900141f379da5f3a3e23de7521889a779&=&format=webp&width=658&height=877",
   },
   {
     id: "copo-morango",
@@ -34,7 +34,7 @@ const products = [
     category: "Copos",
     bestSeller: true,
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502701655114907809/IMG_1243.png?ex=6a00ab79&is=69ff59f9&hm=ca7ff7753aed4b63a3183ff643ffd5d1f440b244a684fec3a59497afaab08a9f&=&format=webp&quality=lossless&width=340&height=551",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502701655114907809/IMG_1243.png?ex=6a049ff9&is=6a034e79&hm=e297120df88fb74b388e2861f5d829b92d9749affa3e680a6ca550698d1f2bc9&=&format=webp&quality=lossless&width=532&height=864",
   },
   {
     id: "copo-ferreiro",
@@ -50,7 +50,7 @@ const products = [
     price: 17,
     category: "Copos",
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502701654678442205/IMG_1244.png?ex=6a00ab79&is=69ff59f9&hm=7b5ca0e76b807de1fbf737ec44846bbb22b4be8dccf69d9b7af68044c78d7bda&=&format=webp&quality=lossless&width=343&height=552",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502701654678442205/IMG_1244.png?ex=6a049ff9&is=6a034e79&hm=5f2338cbd301115e712f95285e9cfd06a184f61a892aa872db11d72a2933400d&=&format=webp&quality=lossless&width=537&height=864",
   },
   {
     id: "bolo-ninho-nutella",
@@ -107,7 +107,7 @@ const products = [
     price: 10,
     category: "Copos",
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502414579915952168/image.jpg?ex=6a0048dd&is=69fef75d&hm=3605a1d0d818f6caec9f04d625e85bf276ce6837b157509fb9e45d1a3d75ad67&=&format=webp&width=414&height=552",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579915952168/image.jpg?ex=6a04e61d&is=6a03949d&hm=4e2abe898189b00aca13a25804f2192e94376bc65d7672c45714cc2541ee9bbe&=&format=webp&width=658&height=877",
   },
   {
     id: "copo-kinde",
