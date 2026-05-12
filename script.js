@@ -7,7 +7,7 @@ const FREIGHT_PRICE_PER_KM = 3;
 const coupons = window.GV_COUPONS || {};
 const WHATSAPP_NUMBER = "5521992194784";
 
-const categories = ["Todos", "Bolos", "Morangos", "Cookies", "Copos", "Combos"];
+const categories = ["Todos", "Bolos", "Morangos", "Brownie", "Copos", "Salgados", "Combos"];
 
 const products = [
   {
@@ -42,7 +42,7 @@ const products = [
     price: 17,
     category: "Copos",
     image:
-      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80",
+      "https://cdn.discordapp.com/attachments/1415518658960031836/1503887806743973908/Copo-da-felicidade-de-Ferrero-Rocher-10.png?ex=6a04fc2a&is=6a03aaaa&hm=2005532a27e1b45cab0d2861351786038a4805ac7f338125ad9f4e400ffc6266&",
   },
   {
     id: "copo-uva",
@@ -53,12 +53,12 @@ const products = [
       "https://media.discordapp.net/attachments/1415518658960031836/1502701654678442205/IMG_1244.png?ex=6a00ab79&is=69ff59f9&hm=7b5ca0e76b807de1fbf737ec44846bbb22b4be8dccf69d9b7af68044c78d7bda&=&format=webp&quality=lossless&width=343&height=552",
   },
   {
-    id: "bolo-ninho-doce-leite",
-    name: "Bolo de pote Ninho com Doce de leite",
+    id: "bolo-ninho-nutella",
+    name: "Bolo de pote Ninho com Nutella",
     price: 12,
     category: "Bolos",
     image:
-      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885002205696170/IMG_1237.jpg?ex=6a04f98d&is=6a03a80d&hm=45f03a2fed8cfe87e6b72b545f7a4c1e88f11f0cb4567d853be7e366e0c877ef&=&format=webp&width=648&height=864",
   },
   {
     id: "bolo-ninho-geleia",
@@ -66,7 +66,23 @@ const products = [
     price: 12,
     category: "Bolos",
     image:
-      "https://images.unsplash.com/photo-1621303837174-89787a7d4729?auto=format&fit=crop&w=600&q=80",
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885002591567882/IMG_1236.jpg?ex=6a04f98d&is=6a03a80d&hm=c1dedd530826969a2cb4d03497ad4b9144b6b8587a6bf3b747a08b20efa77cc7&=&format=webp&width=648&height=864",
+  },
+  {
+    id: "bolo-ninho-kinder",
+    name: "Bolo de pote Ninho com kinder bueno",
+    price: 12,
+    category: "Bolos",
+    image:
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885001870147584/IMG_1239.jpg?ex=6a04f98d&is=6a03a80d&hm=d123b2d23a9710660b564b62314ddd830f2d2fec5fafcb86143b6a81df7663fa&=&format=webp&width=648&height=864",
+  },
+  {
+    id: "bolo-ninho-coco",
+    name: "Bolo de pote Ninho com Coco",
+    price: 12,
+    category: "Bolos",
+    image:
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885002952282112/IMG_1235.jpg?ex=6a04f98d&is=6a03a80d&hm=b79ba313da6828aa2f2ecfece4f0489a160a450680463925ac1505472ed3b9a5&=&format=webp&width=648&height=864",
   },
   {
     id: "banoffe",
@@ -92,6 +108,14 @@ const products = [
     category: "Copos",
     image:
       "https://media.discordapp.net/attachments/1415518658960031836/1502414579915952168/image.jpg?ex=6a0048dd&is=69fef75d&hm=3605a1d0d818f6caec9f04d625e85bf276ce6837b157509fb9e45d1a3d75ad67&=&format=webp&width=414&height=552",
+  },
+  {
+    id: "copo-kinde",
+    name: "Copo da felicidade de kinder bueno",
+    price: 10,
+    category: "Copos",
+    image:
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885000733626368/IMG_1247.jpg?ex=6a04f98d&is=6a03a80d&hm=839c5231b7b9e90593506ff9368b6b0f516db755a153ae37a08b52e117bdfc1a&=&format=webp&width=648&height=864",
   },
   {
     id: "combo-casal",
