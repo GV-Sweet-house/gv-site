@@ -198,5 +198,46 @@
 
     <script src="cupons/cupons.js"></script>
     <script src="script.js"></script>
+
+
+    <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBKaxhWjB_8DFpVSXwDkz2SOa-fOCVDLaU",
+  authDomain: "gv-sweet-house.firebaseapp.com",
+  projectId: "gv-sweet-house",
+  storageBucket: "gv-sweet-house.firebasestorage.app",
+  messagingSenderId: "693251459124",
+  appId: "1:693251459124:web:1732e0138d5167b41d6261"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.salvarPedido = async function(pedido){
+  try {
+    await addDoc(collection(db, "pedidos"), pedido);
+    alert("Pedido enviado com sucesso!");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+window.testeFirebase = function(){
+  window.salvarPedido({
+    nome: "Gabriel",
+    total: 50,
+    status: "Novo pedido"
+  });
+};
+</script>
+
+<button onclick="testeFirebase()">
+ Testar Firebase
+</button>
+
   </body>
 </html>
