@@ -91,7 +91,7 @@ const products = [
     category: "Copos",
     bestSeller: true,
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1502414579601510461/image.jpg?ex=6a0048dd&is=69fef75d&hm=f5e3a4c07592ffe496ae13323b0ad6d0e196c511f12cbb899c2cccbe3161ff30&=&format=webp&width=368&height=552",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414579601510461/image.jpg?ex=6a04e61d&is=6a03949d&hm=d5c821ceb79ff0c95c190b9df69d6a8be09f69d00714f0406dc25ea444774e38&=&format=webp&width=584&height=876",
   },
   {
     id: "torta-limao",
