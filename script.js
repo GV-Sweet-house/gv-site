@@ -118,6 +118,24 @@ const products = [
       "https://media.discordapp.net/attachments/1415518658960031836/1503885000733626368/IMG_1247.jpg?ex=6a04f98d&is=6a03a80d&hm=839c5231b7b9e90593506ff9368b6b0f516db755a153ae37a08b52e117bdfc1a&=&format=webp&width=648&height=864",
   },
   {
+    id: "salgado-italiano",
+    name: "Italiano",
+    price: 8,
+    category: "Salgados",
+    bestSeller: true,
+    image:
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885001484275762/IMG_1240.jpg?ex=6a04f98d&is=6a03a80d&hm=7635d1370c3666f806e5c218814b33689fa8a4177483468c146e540a27b92be7&=&format=webp&width=658&height=877",
+  },
+  {
+    id: "salgado-hamburguer",
+    name: "Hambruguer de forno",
+    price: 10,
+    category: "Salgados",
+    bestSeller: true,
+    image:
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885001043742751/IMG_1241.jpg?ex=6a04f98d&is=6a03a80d&hm=fd4a8eae3c8757279ea50b1c4d18e798f122fa6cf046c4d56ff4aafe8e050eb7&=&format=webp&width=658&height=877",
+  },
+  {
     id: "combo-casal",
     name: "Combo casal",
     price: 25,
