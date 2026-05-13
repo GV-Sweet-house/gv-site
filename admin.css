@@ -12,64 +12,10 @@ body{
   color:white;
 }
 
-/* LOGIN */
-
-.login-wrapper{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  padding:40px 0;
-}
-
-.login-box{
-  width:400px;
-  background:#181818;
-  padding:35px;
-  border-radius:18px;
-  box-shadow:0 0 40px rgba(0,0,0,0.6);
-}
-
-.login-box h1{
-  text-align:center;
-  margin-bottom:25px;
-  font-size:42px;
-}
-
-.login-box input{
-  width:100%;
-  padding:18px;
-  margin-bottom:15px;
-  border:none;
-  border-radius:12px;
-  background:#2a2a2a;
-  color:white;
-  font-size:16px;
-}
-
-.login-box button{
-  width:100%;
-  padding:18px;
-  border:none;
-  border-radius:12px;
-  background:#ff3f68;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.login-box button:hover{
-  transform:scale(1.02);
-}
-
-/* PANEL */
-
 .panel{
   width:100%;
+  min-height:100vh;
 }
-
-/* TOPBAR */
 
 .topbar{
   background:#181818;
@@ -77,10 +23,11 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  border-bottom:1px solid #2a2a2a;
 }
 
 .topbar h2{
-  font-size:36px;
+  font-size:34px;
 }
 
 .tabs{
@@ -91,50 +38,72 @@ body{
 .tabs button{
   padding:14px 28px;
   border:none;
-  border-radius:12px;
-  background:#2a2a2a;
+  border-radius:14px;
+  background:#242424;
   color:white;
   cursor:pointer;
   font-size:15px;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.tabs button:hover{
+  transform:translateY(-2px);
 }
 
 .tabs .active{
   background:#ff3f68;
 }
 
-/* CONTAINER */
-
 .container{
-  padding:25px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:22px;
+  padding:28px;
 }
 
-/* PEDIDOS */
+.orders-area{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:24px;
+}
+
+.left-side{
+  display:flex;
+  flex-direction:column;
+}
+
+.search-box{
+  margin-bottom:20px;
+}
+
+.search-box input{
+  width:100%;
+  padding:18px 20px;
+  border:none;
+  border-radius:16px;
+  background:#1b1b1b;
+  color:white;
+  font-size:16px;
+  border:1px solid #2a2a2a;
+}
+
+.orders{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
 
 .pedido{
-  background:#181818;
-  border-radius:18px;
-  padding:20px;
-  margin-bottom:18px;
+  background:#1b1b1b;
+  border-radius:22px;
+  padding:22px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.pedido-info strong{
-  font-size:30px;
-}
-
 .price{
   color:#ff3f68;
   margin:10px 0;
-  font-size:28px;
-}
-
-.pedido-info p{
-  font-size:22px;
+  font-size:24px;
 }
 
 .status-buttons{
@@ -146,7 +115,7 @@ body{
 .status-buttons button{
   padding:10px 18px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   color:white;
   font-weight:bold;
   cursor:pointer;
@@ -168,54 +137,117 @@ body{
   background:#2dc653;
 }
 
-.novo-text{
-  color:#e6a700;
+.sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
-.prep-text{
-  color:#3a86ff;
+.side-card{
+  background:#1b1b1b;
+  border-radius:22px;
+  padding:24px;
 }
 
-.entrega-text{
-  color:#8338ec;
+.info{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:16px;
 }
 
-.ok-text{
+#faturamento{
   color:#2dc653;
-}
-
-/* DASHBOARD */
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-bottom:20px;
-}
-
-.card{
-  background:#181818;
-  padding:25px;
-  border-radius:18px;
-}
-
-.card p{
-  font-size:24px;
-}
-
-.card h3{
-  color:#ff3f68;
-  margin-top:12px;
   font-size:42px;
 }
 
+.dashboard{
+  display:none;
+  flex-direction:column;
+  gap:24px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#1b1b1b;
+  padding:28px;
+  border-radius:22px;
+}
+
 .chart-box{
-  background:#181818;
-  border-radius:18px;
-  padding:20px;
+  background:#1b1b1b;
+  border-radius:24px;
+  padding:30px;
+  min-height:520px;
 }
 
 canvas{
   width:100% !important;
-  height:400px !important;
+  height:450px !important;
+}
+
+/* CUPONS */
+
+.cupons-page{
+  display:none;
+  flex-direction:column;
+  gap:20px;
+}
+
+.cupom-form{
+  background:#181818;
+  padding:20px;
+  border-radius:20px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.cupom-form input,
+.cupom-form select{
+  flex:1;
+  padding:15px;
+  border:none;
+  border-radius:12px;
+  background:#222;
+  color:white;
+}
+
+.cupom-form button{
+  padding:15px 25px;
+  border:none;
+  border-radius:12px;
+  background:#ff3f68;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.cupom{
+  background:#181818;
+  padding:20px;
+  border-radius:20px;
+  margin-bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.cupom-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.toggleCupom{
+  background:#ff3f68;
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
 }

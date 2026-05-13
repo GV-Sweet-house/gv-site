@@ -1,3 +1,5 @@
+// admin.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -5,16 +7,10 @@ import {
   collection,
   onSnapshot,
   doc,
-  updateDoc
+  updateDoc,
+  setDoc,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/* FIREBASE */
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKaxhWjB_8DFpVSXwDkz2SOa-fOCVDLaU",
@@ -28,153 +24,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-/* ELEMENTOS */
+const orders = document.getElementById("orders");
 
-const loginBox = document.querySelector(".login-wrapper");
-const panel = document.querySelector(".panel");
+const totalEl = document.getElementById("total");
 
-const ordersArea = document.querySelector(".orders");
+const pedidosCount = document.getElementById("pedidosCount");
 
-const totalEl = document.querySelectorAll(".card h3")[0];
-const pedidosEl = document.querySelectorAll(".card h3")[1];
-const clientesEl = document.querySelectorAll(".card h3")[2];
+const clientesCount = document.getElementById("clientesCount");
 
-const tabButtons = document.querySelectorAll(".tabs button");
+const searchInput = document.getElementById("searchInput");
+
+const tabPedidos = document.getElementById("tabPedidos");
+
+const tabDashboard = document.getElementById("tabDashboard");
+
+const tabCupons = document.getElementById("tabCupons");
 
 const dashboard = document.querySelector(".dashboard");
-const orders = document.querySelector(".orders");
 
-/* LOGIN */
+const ordersArea = document.querySelector(".orders-area");
 
-document.querySelector(".login-box button").onclick = async () => {
-
-  const email = document.querySelectorAll(".login-box input")[0].value;
-
-  const password = document.querySelectorAll(".login-box input")[1].value;
-
-  try {
-
-    await signInWithEmailAndPassword(auth, email, password);
-
-  } catch (e) {
-
-    alert("Erro no login");
-
-    console.log(e);
-  }
-};
-
-/* AUTH */
-
-onAuthStateChanged(auth, (user) => {
-
-  if (user) {
-
-    loginBox.style.display = "none";
-
-    panel.style.display = "block";
-
-    loadOrders();
-
-  } else {
-
-    loginBox.style.display = "flex";
-
-    panel.style.display = "none";
-  }
-});
+const cuponsPage = document.querySelector(".cupons-page");
 
 /* TABS */
 
-tabButtons[0].onclick = () => {
+tabPedidos.onclick = () => {
 
-  orders.style.display = "block";
+  ordersArea.style.display = "grid";
 
   dashboard.style.display = "none";
 
-  tabButtons[0].classList.add("active");
-  tabButtons[1].classList.remove("active");
+  cuponsPage.style.display = "none";
+
+  tabPedidos.classList.add("active");
+
+  tabDashboard.classList.remove("active");
+
+  tabCupons.classList.remove("active");
 };
 
-tabButtons[1].onclick = () => {
+tabDashboard.onclick = () => {
 
-  orders.style.display = "block";
+  ordersArea.style.display = "none";
 
-  dashboard.style.display = "block";
+  dashboard.style.display = "flex";
 
-  tabButtons[1].classList.add("active");
-  tabButtons[0].classList.remove("active");
+  cuponsPage.style.display = "none";
+
+  tabDashboard.classList.add("active");
+
+  tabPedidos.classList.remove("active");
+
+  tabCupons.classList.remove("active");
 };
 
-/* CHART */
+tabCupons.onclick = () => {
 
-let chart;
+  ordersArea.style.display = "none";
 
-function renderChart(vendas) {
+  dashboard.style.display = "none";
 
-  const labels = Object.keys(vendas);
+  cuponsPage.style.display = "flex";
 
-  const data = Object.values(vendas);
+  tabCupons.classList.add("active");
 
-  if (chart) chart.destroy();
+  tabPedidos.classList.remove("active");
 
-  chart = new Chart(document.getElementById("chart"), {
-
-    type: "line",
-
-    data: {
-
-      labels,
-
-      datasets: [{
-        label: "Vendas por dia",
-        data,
-        borderColor: "#ff3f68",
-        borderWidth: 4,
-        tension: 0.4,
-        pointRadius: 5
-      }]
-    },
-
-    options: {
-
-      responsive: true,
-
-      plugins: {
-        legend: {
-          labels: {
-            color: "white"
-          }
-        }
-      },
-
-      scales: {
-
-        x: {
-          ticks: {
-            color: "white"
-          },
-
-          grid: {
-            color: "#2a2a2a"
-          }
-        },
-
-        y: {
-          ticks: {
-            color: "white"
-          },
-
-          grid: {
-            color: "#2a2a2a"
-          }
-        }
-      }
-    }
-  });
-}
+  tabDashboard.classList.remove("active");
+};
 
 /* STATUS */
 
@@ -185,13 +103,52 @@ window.changeStatus = async (id, status) => {
   });
 };
 
+/* CHART */
+
+let chart;
+
+function renderChart(vendas){
+
+  const labels = Object.keys(vendas);
+
+  const data = Object.values(vendas);
+
+  if(chart){
+    chart.destroy();
+  }
+
+  chart = new Chart(document.getElementById("chart"), {
+
+    type:"line",
+
+    data:{
+      labels,
+
+      datasets:[{
+        label:"Vendas por dia",
+        data,
+        borderColor:"#ff3f68",
+        backgroundColor:"rgba(255,63,104,0.12)",
+        fill:true,
+        borderWidth:4,
+        tension:0.45
+      }]
+    },
+
+    options:{
+      responsive:true,
+      maintainAspectRatio:false
+    }
+  });
+}
+
 /* LOAD PEDIDOS */
 
-function loadOrders() {
+function loadOrders(){
 
-  onSnapshot(collection(db, "pedidos"), (snap) => {
+  onSnapshot(collection(db, "pedidos"), (snap)=>{
 
-    ordersArea.innerHTML = "";
+    orders.innerHTML = "";
 
     let total = 0;
 
@@ -201,9 +158,23 @@ function loadOrders() {
 
     let vendas = {};
 
-    snap.forEach((docItem) => {
+    let entregues = 0;
+
+    let preparando = 0;
+
+    const search =
+      searchInput.value.toLowerCase();
+
+    snap.forEach((docItem)=>{
 
       const p = docItem.data();
+
+      if(
+        search &&
+        !p.nome?.toLowerCase().includes(search)
+      ){
+        return;
+      }
 
       pedidos++;
 
@@ -211,74 +182,270 @@ function loadOrders() {
 
       clientes.add(p.nome);
 
+      if(p.status === "Entregue"){
+        entregues++;
+      }
+
+      if(p.status === "Preparando"){
+        preparando++;
+      }
+
       const data = p.data
-        ? new Date(p.data).toLocaleDateString("pt-BR")
-        : "Hoje";
+      ? new Date(p.data).toLocaleDateString("pt-BR")
+      : "Hoje";
 
-      if (!vendas[data]) {
-
+      if(!vendas[data]){
         vendas[data] = 0;
       }
 
       vendas[data] += Number(p.subtotal || 0);
 
-      ordersArea.innerHTML += `
+      orders.innerHTML += `
 
-        <div class="pedido">
+      <div class="pedido">
 
-          <div class="pedido-info">
+        <div>
 
-            <strong>${p.nome || "Cliente"}</strong>
+          <strong>${p.nome || "Cliente"}</strong>
 
-            <p class="price">
-              R$ ${p.subtotal || 0}
-            </p>
+          <p class="price">
+            R$ ${p.subtotal || 0}
+          </p>
 
-            <p>
-              Status:
-              <span>${p.status || "Novo"}</span>
-            </p>
-
-          </div>
-
-          <div class="status-buttons">
-
-            <button
-              class="novo"
-              onclick="changeStatus('${docItem.id}','Novo')">
-              Novo
-            </button>
-
-            <button
-              class="prep"
-              onclick="changeStatus('${docItem.id}','Preparando')">
-              Preparando
-            </button>
-
-            <button
-              class="entrega"
-              onclick="changeStatus('${docItem.id}','Saiu')">
-              Entrega
-            </button>
-
-            <button
-              class="ok"
-              onclick="changeStatus('${docItem.id}','Entregue')">
-              Entregue
-            </button>
-
-          </div>
+          <p>
+            Status: ${p.status || "Novo"}
+          </p>
 
         </div>
+
+        <div class="status-buttons">
+
+          <button
+            class="novo"
+            onclick="changeStatus('${docItem.id}','Novo')">
+            Novo
+          </button>
+
+          <button
+            class="prep"
+            onclick="changeStatus('${docItem.id}','Preparando')">
+            Preparando
+          </button>
+
+          <button
+            class="entrega"
+            onclick="changeStatus('${docItem.id}','Saiu')">
+            Entrega
+          </button>
+
+          <button
+            class="ok"
+            onclick="changeStatus('${docItem.id}','Entregue')">
+            Entregue
+          </button>
+
+        </div>
+
+      </div>
       `;
     });
 
-    totalEl.innerText = "R$ " + total.toFixed(2);
+    totalEl.innerText =
+      "R$ " + total.toFixed(2);
 
-    pedidosEl.innerText = pedidos;
+    pedidosCount.innerText = pedidos;
 
-    clientesEl.innerText = clientes.size;
+    clientesCount.innerText = clientes.size;
+
+    document.getElementById("todayOrders").innerText =
+      pedidos;
+
+    document.getElementById("doneOrders").innerText =
+      entregues;
+
+    document.getElementById("prepOrders").innerText =
+      preparando;
+
+    document.getElementById("faturamento").innerText =
+      "R$ " + total.toFixed(2);
 
     renderChart(vendas);
   });
 }
+
+/* SEARCH */
+
+searchInput.addEventListener("input", () => {
+  loadOrders();
+});
+
+/* CUPONS */
+
+const criarCupom =
+  document.getElementById("criarCupom");
+
+criarCupom.onclick = async () => {
+
+  const codigo =
+    document.getElementById("cupomCodigo")
+    .value
+    .toUpperCase();
+
+  const tipo =
+    document.getElementById("cupomTipo")
+    .value;
+
+  const desconto =
+    Number(
+      document.getElementById("cupomDesconto")
+      .value
+    );
+
+  const valorMinimo =
+    Number(
+      document.getElementById("cupomMinimo")
+      .value || 0
+    );
+
+  const validade =
+    document.getElementById("cupomValidade")
+    .value;
+
+  if(!codigo || !desconto){
+
+    alert("Preencha os campos");
+
+    return;
+  }
+
+  await setDoc(doc(db, "cupons", codigo), {
+
+    codigo,
+    tipo,
+    desconto,
+    valorMinimo,
+    validade,
+    ativo:true,
+    usos:0,
+    maxUsos:9999
+
+  });
+
+  alert("Cupom criado");
+
+  loadCupons();
+};
+
+/* LISTAR CUPONS */
+
+async function loadCupons(){
+
+  const area =
+    document.getElementById("listaCupons");
+
+  area.innerHTML = "";
+
+  const snap =
+    await getDocs(collection(db, "cupons"));
+
+  snap.forEach((docItem)=>{
+
+    const c = docItem.data();
+
+    area.innerHTML += `
+
+      <div class="cupom">
+
+        <div>
+
+          <h2>${c.codigo}</h2>
+
+          <p>
+            Tipo:
+            ${c.tipo || "porcentagem"}
+          </p>
+
+          <p>
+            Desconto:
+            ${c.desconto || 0}
+            ${
+              c.tipo === "fixo"
+              ? "R$"
+              : "%"
+            }
+          </p>
+
+          <p>
+            ${
+              c.ativo
+              ? "🟢 Ativo"
+              : "🔴 Inativo"
+            }
+          </p>
+
+          ${
+            c.valorMinimo
+            ? `
+              <p>
+                Pedido mínimo:
+                R$ ${c.valorMinimo}
+              </p>
+            `
+            : ""
+          }
+
+          ${
+            c.validade
+            ? `
+              <p>
+                Validade:
+                ${c.validade}
+              </p>
+            `
+            : ""
+          }
+
+        </div>
+
+        <div class="cupom-buttons">
+
+          <button
+            class="toggleCupom"
+            onclick="
+              toggleCupom(
+                '${docItem.id}',
+                ${c.ativo}
+              )
+            "
+          >
+            ${
+              c.ativo
+              ? "Desativar"
+              : "Ativar"
+            }
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+  });
+}
+
+/* ATIVAR/DESATIVAR */
+
+window.toggleCupom = async (id, ativo) => {
+
+  await updateDoc(doc(db, "cupons", id), {
+
+    ativo: !ativo
+
+  });
+
+  loadCupons();
+};
+
+loadOrders();
+
+loadCupons();

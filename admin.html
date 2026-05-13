@@ -1,11 +1,13 @@
 <!-- admin.html -->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G&V Sweet House</title>
+
+  <title>G&V Sweet House Admin</title>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -13,25 +15,6 @@
 </head>
 
 <body>
-
-  <!-- LOGIN -->
-
-  <div class="login-wrapper">
-
-    <div class="login-box">
-
-      <h1>Login Admin</h1>
-
-      <input type="email" placeholder="Email">
-      <input type="password" placeholder="Senha">
-
-      <button>Entrar</button>
-
-    </div>
-
-  </div>
-
-  <!-- PAINEL -->
 
   <div class="panel">
 
@@ -42,79 +25,132 @@
       <h2>G&V Sweet House 🍬</h2>
 
       <div class="tabs">
-        <button class="active">Pedidos</button>
-        <button>Dashboard</button>
+
+        <button id="tabPedidos" class="active">
+          Pedidos
+        </button>
+
+        <button id="tabDashboard">
+          Dashboard
+        </button>
+
+        <button id="tabCupons">
+          Cupons
+        </button>
+
       </div>
 
     </div>
-
-    <!-- CONTAINER -->
 
     <div class="container">
 
       <!-- PEDIDOS -->
 
-      <div class="orders">
+      <div class="orders-area">
 
-        <div class="pedido">
-          <div class="pedido-info">
-            <strong>Maria Silva</strong>
-            <p class="price">R$ 45.00</p>
-            <p>Status: <span class="novo-text">Novo</span></p>
+        <div class="left-side">
+
+          <div class="search-box">
+
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Pesquisar cliente..."
+            >
+
           </div>
 
-          <div class="status-buttons">
-            <button class="novo">Novo</button>
-            <button class="prep">Preparando</button>
-            <button class="entrega">Entrega</button>
-            <button class="ok">Entregue</button>
-          </div>
+          <div class="orders" id="orders"></div>
+
         </div>
 
-        <div class="pedido">
-          <div class="pedido-info">
-            <strong>João Santos</strong>
-            <p class="price">R$ 32.50</p>
-            <p>Status: <span class="prep-text">Preparando</span></p>
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+          <div class="side-card">
+
+            <h3>📦 Resumo</h3>
+
+            <div class="info">
+              <span>Pedidos Hoje</span>
+              <strong id="todayOrders">0</strong>
+            </div>
+
+            <div class="info">
+              <span>Entregues</span>
+              <strong id="doneOrders">0</strong>
+            </div>
+
+            <div class="info">
+              <span>Preparando</span>
+              <strong id="prepOrders">0</strong>
+            </div>
+
           </div>
 
-          <div class="status-buttons">
-            <button class="novo">Novo</button>
-            <button class="prep">Preparando</button>
-            <button class="entrega">Entrega</button>
-            <button class="ok">Entregue</button>
+          <div class="side-card">
+
+            <h3>💰 Faturamento</h3>
+
+            <h1 id="faturamento">
+              R$ 0
+            </h1>
+
           </div>
+
         </div>
 
-        <div class="pedido">
-          <div class="pedido-info">
-            <strong>Ana Oliveira</strong>
-            <p class="price">R$ 28.00</p>
-            <p>Status: <span class="entrega-text">Saiu</span></p>
-          </div>
+      </div>
 
-          <div class="status-buttons">
-            <button class="novo">Novo</button>
-            <button class="prep">Preparando</button>
-            <button class="entrega">Entrega</button>
-            <button class="ok">Entregue</button>
-          </div>
+      <!-- CUPONS -->
+
+      <div class="cupons-page">
+
+        <div class="cupom-form">
+
+          <input
+            type="text"
+            id="cupomCodigo"
+            placeholder="Código do cupom"
+          >
+
+          <select id="cupomTipo">
+
+            <option value="porcentagem">
+              Porcentagem
+            </option>
+
+            <option value="fixo">
+              Valor Fixo
+            </option>
+
+          </select>
+
+          <input
+            type="number"
+            id="cupomDesconto"
+            placeholder="Desconto"
+          >
+
+          <input
+            type="number"
+            id="cupomMinimo"
+            placeholder="Pedido mínimo"
+          >
+
+          <input
+            type="date"
+            id="cupomValidade"
+          >
+
+          <button id="criarCupom">
+            Criar Cupom
+          </button>
+
         </div>
 
-        <div class="pedido">
-          <div class="pedido-info">
-            <strong>Carlos Lima</strong>
-            <p class="price">R$ 60.00</p>
-            <p>Status: <span class="ok-text">Entregue</span></p>
-          </div>
-
-          <div class="status-buttons">
-            <button class="novo">Novo</button>
-            <button class="prep">Preparando</button>
-            <button class="entrega">Entrega</button>
-            <button class="ok">Entregue</button>
-          </div>
-        </div>
+        <div id="listaCupons"></div>
 
       </div>
 
@@ -126,17 +162,17 @@
 
           <div class="card">
             <p>Total</p>
-            <h3>R$ 180.50</h3>
+            <h3 id="total">R$ 0</h3>
           </div>
 
           <div class="card">
             <p>Pedidos</p>
-            <h3>5</h3>
+            <h3 id="pedidosCount">0</h3>
           </div>
 
           <div class="card">
             <p>Clientes</p>
-            <h3>5</h3>
+            <h3 id="clientesCount">0</h3>
           </div>
 
         </div>
@@ -151,7 +187,7 @@
 
   </div>
 
-  <script src="admin.js"></script>
+  <script type="module" src="admin.js"></script>
 
 </body>
 

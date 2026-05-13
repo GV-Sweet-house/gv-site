@@ -133,7 +133,7 @@ const products = [
     category: "Salgados",
     bestSeller: true,
     image:
-      "https://media.discordapp.net/attachments/1415518658960031836/1503885001043742751/IMG_1241.jpg?ex=6a04f98d&is=6a03a80d&hm=fd4a8eae3c8757279ea50b1c4d18e798f122fa6cf046c4d56ff4aafe8e050eb7&=&format=webp&width=658&height=877",
+      "https://media.discordapp.net/attachments/1415518658960031836/1503885001484275762/IMG_1240.jpg?ex=6a04f98d&is=6a03a80d&hm=7635d1370c3666f806e5c218814b33689fa8a4177483468c146e540a27b92be7&=&format=webp&width=658&height=877",
   },
   {
     id: "combo-casal",
@@ -689,19 +689,6 @@ function finishOrder(event) {
     elements.customerNumber.focus();
     return;
   }
-
-  if (window.salvarPedido) {
-  window.salvarPedido({
-    nome: elements.customerName.value.trim(),
-    itens: getCartEntries(),
-    subtotal: calculateSubtotal(),
-    frete: state.deliveryFee,
-    desconto: state.activeCoupon || null,
-    total: calculateSubtotal() + state.deliveryFee,
-    status: "Novo pedido",
-    data: new Date().toISOString()
-  });
-}
 
   const message = encodeURIComponent(buildWhatsAppMessage());
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
