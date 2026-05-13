@@ -1,5 +1,4 @@
 <!-- admin.html -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -34,13 +33,11 @@
           Dashboard
         </button>
 
-        <button id="tabCupons">
-          Cupons
-        </button>
-
       </div>
 
     </div>
+
+    <!-- CONTAINER -->
 
     <div class="container">
 
@@ -49,6 +46,8 @@
       <div class="orders-area">
 
         <div class="left-side">
+
+          <!-- SEARCH -->
 
           <div class="search-box">
 
@@ -59,6 +58,8 @@
             >
 
           </div>
+
+          <!-- ORDERS -->
 
           <div class="orders" id="orders"></div>
 
@@ -99,58 +100,19 @@
 
           </div>
 
-        </div>
+          <div class="side-card">
 
-      </div>
+            <h3>🕒 Atividade</h3>
 
-      <!-- CUPONS -->
+            <ul id="activity">
 
-      <div class="cupons-page">
+              <li>Nenhuma atividade</li>
 
-        <div class="cupom-form">
+            </ul>
 
-          <input
-            type="text"
-            id="cupomCodigo"
-            placeholder="Código do cupom"
-          >
-
-          <select id="cupomTipo">
-
-            <option value="porcentagem">
-              Porcentagem
-            </option>
-
-            <option value="fixo">
-              Valor Fixo
-            </option>
-
-          </select>
-
-          <input
-            type="number"
-            id="cupomDesconto"
-            placeholder="Desconto"
-          >
-
-          <input
-            type="number"
-            id="cupomMinimo"
-            placeholder="Pedido mínimo"
-          >
-
-          <input
-            type="date"
-            id="cupomValidade"
-          >
-
-          <button id="criarCupom">
-            Criar Cupom
-          </button>
+          </div>
 
         </div>
-
-        <div id="listaCupons"></div>
 
       </div>
 

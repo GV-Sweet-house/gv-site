@@ -7,10 +7,10 @@ import {
   collection,
   onSnapshot,
   doc,
-  updateDoc,
-  setDoc,
-  getDocs
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* FIREBASE */
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKaxhWjB_8DFpVSXwDkz2SOa-fOCVDLaU",
@@ -21,33 +21,43 @@ const firebaseConfig = {
   appId: "1:693251459124:web:1732e0138d5167b41d6261"
 };
 
+
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-const orders = document.getElementById("orders");
+/* ELEMENTOS */
 
-const totalEl = document.getElementById("total");
+const orders =
+  document.getElementById("orders");
 
-const pedidosCount = document.getElementById("pedidosCount");
+const totalEl =
+  document.getElementById("total");
 
-const clientesCount = document.getElementById("clientesCount");
+const pedidosCount =
+  document.getElementById("pedidosCount");
 
-const searchInput = document.getElementById("searchInput");
+const clientesCount =
+  document.getElementById("clientesCount");
 
-const tabPedidos = document.getElementById("tabPedidos");
-
-const tabDashboard = document.getElementById("tabDashboard");
-
-const tabCupons = document.getElementById("tabCupons");
-
-const dashboard = document.querySelector(".dashboard");
-
-const ordersArea = document.querySelector(".orders-area");
-
-const cuponsPage = document.querySelector(".cupons-page");
+const searchInput =
+  document.getElementById("searchInput");
 
 /* TABS */
+
+const tabPedidos =
+  document.getElementById("tabPedidos");
+
+const tabDashboard =
+  document.getElementById("tabDashboard");
+
+const dashboard =
+  document.querySelector(".dashboard");
+
+const ordersArea =
+  document.querySelector(".orders-area");
+
+/* BOTÕES */
 
 tabPedidos.onclick = () => {
 
@@ -55,13 +65,9 @@ tabPedidos.onclick = () => {
 
   dashboard.style.display = "none";
 
-  cuponsPage.style.display = "none";
-
   tabPedidos.classList.add("active");
 
   tabDashboard.classList.remove("active");
-
-  tabCupons.classList.remove("active");
 };
 
 tabDashboard.onclick = () => {
@@ -70,28 +76,9 @@ tabDashboard.onclick = () => {
 
   dashboard.style.display = "flex";
 
-  cuponsPage.style.display = "none";
-
   tabDashboard.classList.add("active");
 
   tabPedidos.classList.remove("active");
-
-  tabCupons.classList.remove("active");
-};
-
-tabCupons.onclick = () => {
-
-  ordersArea.style.display = "none";
-
-  dashboard.style.display = "none";
-
-  cuponsPage.style.display = "flex";
-
-  tabCupons.classList.add("active");
-
-  tabPedidos.classList.remove("active");
-
-  tabDashboard.classList.remove("active");
 };
 
 /* STATUS */
@@ -122,21 +109,41 @@ function renderChart(vendas){
     type:"line",
 
     data:{
+
       labels,
 
       datasets:[{
+
         label:"Vendas por dia",
+
         data,
+
         borderColor:"#ff3f68",
+
         backgroundColor:"rgba(255,63,104,0.12)",
+
         fill:true,
+
         borderWidth:4,
-        tension:0.45
+
+        tension:0.45,
+
+        pointRadius:6,
+
+        pointHoverRadius:8,
+
+        pointBackgroundColor:"#ff3f68",
+
+        pointBorderColor:"#fff",
+
+        pointBorderWidth:2
       }]
     },
 
     options:{
+
       responsive:true,
+
       maintainAspectRatio:false
     }
   });
@@ -204,7 +211,7 @@ function loadOrders(){
 
       <div class="pedido">
 
-        <div>
+        <div class="pedido-info">
 
           <strong>${p.nome || "Cliente"}</strong>
 
@@ -269,6 +276,13 @@ function loadOrders(){
     document.getElementById("faturamento").innerText =
       "R$ " + total.toFixed(2);
 
+    document.getElementById("activity").innerHTML = `
+      <li>${pedidos} pedidos registrados</li>
+      <li>${entregues} pedidos entregues</li>
+      <li>${preparando} pedidos preparando</li>
+      <li>Faturamento atualizado</li>
+    `;
+
     renderChart(vendas);
   });
 }
@@ -279,173 +293,6 @@ searchInput.addEventListener("input", () => {
   loadOrders();
 });
 
-/* CUPONS */
-
-const criarCupom =
-  document.getElementById("criarCupom");
-
-criarCupom.onclick = async () => {
-
-  const codigo =
-    document.getElementById("cupomCodigo")
-    .value
-    .toUpperCase();
-
-  const tipo =
-    document.getElementById("cupomTipo")
-    .value;
-
-  const desconto =
-    Number(
-      document.getElementById("cupomDesconto")
-      .value
-    );
-
-  const valorMinimo =
-    Number(
-      document.getElementById("cupomMinimo")
-      .value || 0
-    );
-
-  const validade =
-    document.getElementById("cupomValidade")
-    .value;
-
-  if(!codigo || !desconto){
-
-    alert("Preencha os campos");
-
-    return;
-  }
-
-  await setDoc(doc(db, "cupons", codigo), {
-
-    codigo,
-    tipo,
-    desconto,
-    valorMinimo,
-    validade,
-    ativo:true,
-    usos:0,
-    maxUsos:9999
-
-  });
-
-  alert("Cupom criado");
-
-  loadCupons();
-};
-
-/* LISTAR CUPONS */
-
-async function loadCupons(){
-
-  const area =
-    document.getElementById("listaCupons");
-
-  area.innerHTML = "";
-
-  const snap =
-    await getDocs(collection(db, "cupons"));
-
-  snap.forEach((docItem)=>{
-
-    const c = docItem.data();
-
-    area.innerHTML += `
-
-      <div class="cupom">
-
-        <div>
-
-          <h2>${c.codigo}</h2>
-
-          <p>
-            Tipo:
-            ${c.tipo || "porcentagem"}
-          </p>
-
-          <p>
-            Desconto:
-            ${c.desconto || 0}
-            ${
-              c.tipo === "fixo"
-              ? "R$"
-              : "%"
-            }
-          </p>
-
-          <p>
-            ${
-              c.ativo
-              ? "🟢 Ativo"
-              : "🔴 Inativo"
-            }
-          </p>
-
-          ${
-            c.valorMinimo
-            ? `
-              <p>
-                Pedido mínimo:
-                R$ ${c.valorMinimo}
-              </p>
-            `
-            : ""
-          }
-
-          ${
-            c.validade
-            ? `
-              <p>
-                Validade:
-                ${c.validade}
-              </p>
-            `
-            : ""
-          }
-
-        </div>
-
-        <div class="cupom-buttons">
-
-          <button
-            class="toggleCupom"
-            onclick="
-              toggleCupom(
-                '${docItem.id}',
-                ${c.ativo}
-              )
-            "
-          >
-            ${
-              c.ativo
-              ? "Desativar"
-              : "Ativar"
-            }
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-  });
-}
-
-/* ATIVAR/DESATIVAR */
-
-window.toggleCupom = async (id, ativo) => {
-
-  await updateDoc(doc(db, "cupons", id), {
-
-    ativo: !ativo
-
-  });
-
-  loadCupons();
-};
+/* START */
 
 loadOrders();
-
-loadCupons();
