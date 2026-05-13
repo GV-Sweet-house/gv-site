@@ -1,91 +1,221 @@
-body{
-margin:0;
-font-family:Arial;
-background:#0f0f0f;
-color:white;
+/* admin.css */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
-.hidden{display:none}
+body{
+  background:#0d0d0d;
+  color:white;
+}
+
+/* LOGIN */
+
+.login-wrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:40px 0;
+}
 
 .login-box{
-max-width:300px;
-margin:120px auto;
-background:#1c1c1c;
-padding:20px;
-border-radius:10px;
+  width:400px;
+  background:#181818;
+  padding:35px;
+  border-radius:18px;
+  box-shadow:0 0 40px rgba(0,0,0,0.6);
 }
 
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border:none;
-border-radius:6px;
+.login-box h1{
+  text-align:center;
+  margin-bottom:25px;
+  font-size:42px;
 }
 
-button{
-padding:10px;
-width:100%;
-border:none;
-border-radius:6px;
-background:#ff4d6d;
-color:white;
-cursor:pointer;
+.login-box input{
+  width:100%;
+  padding:18px;
+  margin-bottom:15px;
+  border:none;
+  border-radius:12px;
+  background:#2a2a2a;
+  color:white;
+  font-size:16px;
 }
+
+.login-box button{
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:12px;
+  background:#ff3f68;
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.login-box button:hover{
+  transform:scale(1.02);
+}
+
+/* PANEL */
+
+.panel{
+  width:100%;
+}
+
+/* TOPBAR */
 
 .topbar{
-display:flex;
-justify-content:space-between;
-padding:15px;
-background:#1c1c1c;
+  background:#181818;
+  padding:18px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.topbar h2{
+  font-size:36px;
+}
+
+.tabs{
+  display:flex;
+  gap:12px;
 }
 
 .tabs button{
-padding:10px;
-margin-right:5px;
-border:none;
-border-radius:6px;
-cursor:pointer;
+  padding:14px 28px;
+  border:none;
+  border-radius:12px;
+  background:#2a2a2a;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
 }
 
-.active{
-background:#ff4d6d;
+.tabs .active{
+  background:#ff3f68;
 }
+
+/* CONTAINER */
 
 .container{
-padding:20px;
+  padding:25px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
 }
+
+/* PEDIDOS */
 
 .pedido{
-background:#1c1c1c;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
+  background:#181818;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
+.pedido-info strong{
+  font-size:30px;
+}
+
+.price{
+  color:#ff3f68;
+  margin:10px 0;
+  font-size:28px;
+}
+
+.pedido-info p{
+  font-size:22px;
+}
+
+.status-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.status-buttons button{
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.novo{
+  background:#e6a700;
+}
+
+.prep{
+  background:#3a86ff;
+}
+
+.entrega{
+  background:#8338ec;
+}
+
+.ok{
+  background:#2dc653;
+}
+
+.novo-text{
+  color:#e6a700;
+}
+
+.prep-text{
+  color:#3a86ff;
+}
+
+.entrega-text{
+  color:#8338ec;
+}
+
+.ok-text{
+  color:#2dc653;
+}
+
+/* DASHBOARD */
+
 .cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:20px;
 }
 
 .card{
-background:#1c1c1c;
-padding:10px;
-border-radius:10px;
+  background:#181818;
+  padding:25px;
+  border-radius:18px;
+}
+
+.card p{
+  font-size:24px;
+}
+
+.card h3{
+  color:#ff3f68;
+  margin-top:12px;
+  font-size:42px;
+}
+
+.chart-box{
+  background:#181818;
+  border-radius:18px;
+  padding:20px;
 }
 
 canvas{
-background:#1c1c1c;
-padding:10px;
-border-radius:10px;
-}
-
-.statusBtn{
-margin:3px;
-padding:5px;
-border:none;
-border-radius:6px;
-cursor:pointer;
+  width:100% !important;
+  height:400px !important;
 }

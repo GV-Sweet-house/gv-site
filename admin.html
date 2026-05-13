@@ -1,10 +1,11 @@
-<!doctype html>
+<!-- admin.html -->
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin G&V Sweet House</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G&V Sweet House</title>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -13,58 +14,144 @@
 
 <body>
 
-  <!-- 🔐 LOGIN -->
-  <div id="loginBox" class="login-box">
-    <h2>Login Admin</h2>
+  <!-- LOGIN -->
 
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Senha">
+  <div class="login-wrapper">
 
-    <button id="loginBtn">Entrar</button>
+    <div class="login-box">
+
+      <h1>Login Admin</h1>
+
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Senha">
+
+      <button>Entrar</button>
+
+    </div>
+
   </div>
 
-  <!-- 📦 PAINEL -->
-  <div id="panel" class="hidden">
+  <!-- PAINEL -->
+
+  <div class="panel">
+
+    <!-- TOPBAR -->
 
     <div class="topbar">
-      <h3>G&V Sweet House 🍬</h3>
+
+      <h2>G&V Sweet House 🍬</h2>
 
       <div class="tabs">
-        <button id="tab1" class="active">Pedidos</button>
-        <button id="tab2">Dashboard</button>
+        <button class="active">Pedidos</button>
+        <button>Dashboard</button>
       </div>
+
     </div>
+
+    <!-- CONTAINER -->
 
     <div class="container">
 
-      <div id="pedidos"></div>
+      <!-- PEDIDOS -->
 
-      <div id="dash" class="hidden">
+      <div class="orders">
 
-        <div class="cards">
-          <div class="card">
-            Total
-            <h3 id="total">0</h3>
+        <div class="pedido">
+          <div class="pedido-info">
+            <strong>Maria Silva</strong>
+            <p class="price">R$ 45.00</p>
+            <p>Status: <span class="novo-text">Novo</span></p>
           </div>
 
-          <div class="card">
-            Pedidos
-            <h3 id="count">0</h3>
-          </div>
-
-          <div class="card">
-            Clientes
-            <h3 id="clientes">0</h3>
+          <div class="status-buttons">
+            <button class="novo">Novo</button>
+            <button class="prep">Preparando</button>
+            <button class="entrega">Entrega</button>
+            <button class="ok">Entregue</button>
           </div>
         </div>
 
-        <canvas id="chart"></canvas>
+        <div class="pedido">
+          <div class="pedido-info">
+            <strong>João Santos</strong>
+            <p class="price">R$ 32.50</p>
+            <p>Status: <span class="prep-text">Preparando</span></p>
+          </div>
+
+          <div class="status-buttons">
+            <button class="novo">Novo</button>
+            <button class="prep">Preparando</button>
+            <button class="entrega">Entrega</button>
+            <button class="ok">Entregue</button>
+          </div>
+        </div>
+
+        <div class="pedido">
+          <div class="pedido-info">
+            <strong>Ana Oliveira</strong>
+            <p class="price">R$ 28.00</p>
+            <p>Status: <span class="entrega-text">Saiu</span></p>
+          </div>
+
+          <div class="status-buttons">
+            <button class="novo">Novo</button>
+            <button class="prep">Preparando</button>
+            <button class="entrega">Entrega</button>
+            <button class="ok">Entregue</button>
+          </div>
+        </div>
+
+        <div class="pedido">
+          <div class="pedido-info">
+            <strong>Carlos Lima</strong>
+            <p class="price">R$ 60.00</p>
+            <p>Status: <span class="ok-text">Entregue</span></p>
+          </div>
+
+          <div class="status-buttons">
+            <button class="novo">Novo</button>
+            <button class="prep">Preparando</button>
+            <button class="entrega">Entrega</button>
+            <button class="ok">Entregue</button>
+          </div>
+        </div>
 
       </div>
+
+      <!-- DASHBOARD -->
+
+      <div class="dashboard">
+
+        <div class="cards">
+
+          <div class="card">
+            <p>Total</p>
+            <h3>R$ 180.50</h3>
+          </div>
+
+          <div class="card">
+            <p>Pedidos</p>
+            <h3>5</h3>
+          </div>
+
+          <div class="card">
+            <p>Clientes</p>
+            <h3>5</h3>
+          </div>
+
+        </div>
+
+        <div class="chart-box">
+          <canvas id="chart"></canvas>
+        </div>
+
+      </div>
+
     </div>
+
   </div>
 
-  <script type="module" src="admin.js"></script>
+  <script src="admin.js"></script>
 
 </body>
 

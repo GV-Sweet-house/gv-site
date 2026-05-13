@@ -1,147 +1,284 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
-getFirestore,
-collection,
-onSnapshot,
-doc,
-updateDoc
+  getFirestore,
+  collection,
+  onSnapshot,
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 import {
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// 🔥 FIREBASE CONFIG
+/* FIREBASE */
+
 const firebaseConfig = {
-apiKey: "SUA_API_KEY",
-authDomain: "gv-sweet-house.firebaseapp.com",
-projectId: "gv-sweet-house",
-storageBucket: "gv-sweet-house.firebasestorage.app",
-messagingSenderId: "693251459124",
-appId: "1:693251459124:web:1732e0138d5167b41d6261"
+  apiKey: "AIzaSyBKaxhWjB_8DFpVSXwDkz2SOa-fOCVDLaU",
+  authDomain: "gv-sweet-house.firebaseapp.com",
+  projectId: "gv-sweet-house",
+  storageBucket: "gv-sweet-house.firebasestorage.app",
+  messagingSenderId: "693251459124",
+  appId: "1:693251459124:web:1732e0138d5167b41d6261"
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let chart;
-let vendas = {};
-let clientes = new Set();
+/* ELEMENTOS */
 
-// 🔐 LOGIN
-document.getElementById("loginBtn").onclick = async () => {
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+const loginBox = document.querySelector(".login-wrapper");
+const panel = document.querySelector(".panel");
 
-try {
-await signInWithEmailAndPassword(auth, email, password);
-} catch (e) {
-alert("Erro no login");
-}
+const ordersArea = document.querySelector(".orders");
+
+const totalEl = document.querySelectorAll(".card h3")[0];
+const pedidosEl = document.querySelectorAll(".card h3")[1];
+const clientesEl = document.querySelectorAll(".card h3")[2];
+
+const tabButtons = document.querySelectorAll(".tabs button");
+
+const dashboard = document.querySelector(".dashboard");
+const orders = document.querySelector(".orders");
+
+/* LOGIN */
+
+document.querySelector(".login-box button").onclick = async () => {
+
+  const email = document.querySelectorAll(".login-box input")[0].value;
+
+  const password = document.querySelectorAll(".login-box input")[1].value;
+
+  try {
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+  } catch (e) {
+
+    alert("Erro no login");
+
+    console.log(e);
+  }
 };
 
-// 🔒 VERIFICA LOGIN
+/* AUTH */
+
 onAuthStateChanged(auth, (user) => {
-if (user) {
-document.getElementById("loginBox").style.display = "none";
-document.getElementById("panel").classList.remove("hidden");
-loadOrders();
-} else {
-document.getElementById("loginBox").style.display = "block";
-document.getElementById("panel").classList.add("hidden");
-}
+
+  if (user) {
+
+    loginBox.style.display = "none";
+
+    panel.style.display = "block";
+
+    loadOrders();
+
+  } else {
+
+    loginBox.style.display = "flex";
+
+    panel.style.display = "none";
+  }
 });
 
-// 📦 STATUS
-window.changeStatus = async (id, status) => {
-await updateDoc(doc(db, "pedidos", id), { status });
+/* TABS */
+
+tabButtons[0].onclick = () => {
+
+  orders.style.display = "block";
+
+  dashboard.style.display = "none";
+
+  tabButtons[0].classList.add("active");
+  tabButtons[1].classList.remove("active");
 };
 
-// 📦 PEDIDOS
+tabButtons[1].onclick = () => {
+
+  orders.style.display = "block";
+
+  dashboard.style.display = "block";
+
+  tabButtons[1].classList.add("active");
+  tabButtons[0].classList.remove("active");
+};
+
+/* CHART */
+
+let chart;
+
+function renderChart(vendas) {
+
+  const labels = Object.keys(vendas);
+
+  const data = Object.values(vendas);
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(document.getElementById("chart"), {
+
+    type: "line",
+
+    data: {
+
+      labels,
+
+      datasets: [{
+        label: "Vendas por dia",
+        data,
+        borderColor: "#ff3f68",
+        borderWidth: 4,
+        tension: 0.4,
+        pointRadius: 5
+      }]
+    },
+
+    options: {
+
+      responsive: true,
+
+      plugins: {
+        legend: {
+          labels: {
+            color: "white"
+          }
+        }
+      },
+
+      scales: {
+
+        x: {
+          ticks: {
+            color: "white"
+          },
+
+          grid: {
+            color: "#2a2a2a"
+          }
+        },
+
+        y: {
+          ticks: {
+            color: "white"
+          },
+
+          grid: {
+            color: "#2a2a2a"
+          }
+        }
+      }
+    }
+  });
+}
+
+/* STATUS */
+
+window.changeStatus = async (id, status) => {
+
+  await updateDoc(doc(db, "pedidos", id), {
+    status
+  });
+};
+
+/* LOAD PEDIDOS */
+
 function loadOrders() {
 
-onSnapshot(collection(db, "pedidos"), (snap) => {
+  onSnapshot(collection(db, "pedidos"), (snap) => {
 
-const area = document.getElementById("pedidos");
-area.innerHTML = "";
+    ordersArea.innerHTML = "";
 
-vendas = {};
-clientes.clear();
+    let total = 0;
 
-let total = 0;
-let count = 0;
+    let pedidos = 0;
 
-const today = new Date().toLocaleDateString("pt-BR");
+    let clientes = new Set();
 
-snap.forEach((d) => {
-const p = d.data();
+    let vendas = {};
 
-const date = p.data
-? new Date(p.data).toLocaleDateString("pt-BR")
-: today;
+    snap.forEach((docItem) => {
 
-clientes.add(p.nome);
-total += Number(p.subtotal || 0);
-count++;
+      const p = docItem.data();
 
-if (!vendas[date]) vendas[date] = 0;
-vendas[date] += Number(p.subtotal || 0);
+      pedidos++;
 
-area.innerHTML += `
-<div class="pedido">
-<strong>${p.nome}</strong><br>
-R$ ${p.subtotal}<br>
-Status: ${p.status}<br>
+      total += Number(p.subtotal || 0);
 
-<button class="statusBtn" onclick="changeStatus('${d.id}','Novo')">Novo</button>
-<button class="statusBtn" onclick="changeStatus('${d.id}','Preparando')">Preparando</button>
-<button class="statusBtn" onclick="changeStatus('${d.id}','Saiu')">Entrega</button>
-<button class="statusBtn" onclick="changeStatus('${d.id}','Entregue')">Entregue</button>
-</div>
-`;
-});
+      clientes.add(p.nome);
 
-document.getElementById("total").innerText = "R$ " + total;
-document.getElementById("count").innerText = count;
-document.getElementById("clientes").innerText = clientes.size;
+      const data = p.data
+        ? new Date(p.data).toLocaleDateString("pt-BR")
+        : "Hoje";
 
-renderChart();
+      if (!vendas[data]) {
 
-});
+        vendas[data] = 0;
+      }
+
+      vendas[data] += Number(p.subtotal || 0);
+
+      ordersArea.innerHTML += `
+
+        <div class="pedido">
+
+          <div class="pedido-info">
+
+            <strong>${p.nome || "Cliente"}</strong>
+
+            <p class="price">
+              R$ ${p.subtotal || 0}
+            </p>
+
+            <p>
+              Status:
+              <span>${p.status || "Novo"}</span>
+            </p>
+
+          </div>
+
+          <div class="status-buttons">
+
+            <button
+              class="novo"
+              onclick="changeStatus('${docItem.id}','Novo')">
+              Novo
+            </button>
+
+            <button
+              class="prep"
+              onclick="changeStatus('${docItem.id}','Preparando')">
+              Preparando
+            </button>
+
+            <button
+              class="entrega"
+              onclick="changeStatus('${docItem.id}','Saiu')">
+              Entrega
+            </button>
+
+            <button
+              class="ok"
+              onclick="changeStatus('${docItem.id}','Entregue')">
+              Entregue
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    });
+
+    totalEl.innerText = "R$ " + total.toFixed(2);
+
+    pedidosEl.innerText = pedidos;
+
+    clientesEl.innerText = clientes.size;
+
+    renderChart(vendas);
+  });
 }
-
-// 📊 CHART
-function renderChart() {
-
-const labels = Object.keys(vendas);
-const data = Object.values(vendas);
-
-if (chart) chart.destroy();
-
-chart = new Chart(document.getElementById("chart"), {
-type: "line",
-data: {
-labels,
-datasets: [{
-label: "Vendas por dia",
-data,
-borderColor: "#ff4d6d",
-tension: 0.3
-}]
-}
-});
-}
-
-// 🔁 TABS
-document.getElementById("tab1").onclick = () => {
-document.getElementById("pedidos").classList.remove("hidden");
-document.getElementById("dash").classList.add("hidden");
-};
-
-document.getElementById("tab2").onclick = () => {
-document.getElementById("dash").classList.remove("hidden");
-document.getElementById("pedidos").classList.add("hidden");
-};
