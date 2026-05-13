@@ -15,7 +15,7 @@ onAuthStateChanged
 
 // 🔥 FIREBASE CONFIG
 const firebaseConfig = {
-apiKey: "AIzaSyBKaxhWjB_8DFpVSXwDkz2SOa-fOCVDLaU",
+apiKey: "SUA_API_KEY",
 authDomain: "gv-sweet-house.firebaseapp.com",
 projectId: "gv-sweet-house",
 storageBucket: "gv-sweet-house.firebasestorage.app",
