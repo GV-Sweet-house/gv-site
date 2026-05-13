@@ -689,7 +689,20 @@ function finishOrder(event) {
     elements.customerNumber.focus();
     return;
   }
-  
+
+  if (window.salvarPedido) {
+  window.salvarPedido({
+    nome: elements.customerName.value.trim(),
+    itens: getCartEntries(),
+    subtotal: calculateSubtotal(),
+    frete: state.deliveryFee,
+    desconto: state.activeCoupon || null,
+    total: calculateSubtotal() + state.deliveryFee,
+    status: "Novo pedido",
+    data: new Date().toISOString()
+  });
+}
+
   const message = encodeURIComponent(buildWhatsAppMessage());
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
 }
