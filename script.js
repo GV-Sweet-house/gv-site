@@ -689,7 +689,7 @@ function finishOrder(event) {
     elements.customerNumber.focus();
     return;
   }
-
+  
   const message = encodeURIComponent(buildWhatsAppMessage());
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
 }
