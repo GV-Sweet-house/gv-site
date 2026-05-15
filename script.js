@@ -1,3 +1,6 @@
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
     getFirestore,
     doc,
@@ -6,6 +9,7 @@ import {
     addDoc,
     collection
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 const STORE_ZIP = "24736-085";
 const STORE_COORDINATES = {
@@ -765,6 +769,19 @@ async function finishOrder(event) {
     elements.customerNumber.focus();
     return;
   }
+
+  if (window.salvarPedido) {
+  window.salvarPedido({
+    nome: elements.customerName.value.trim(),
+    itens: getCartEntries(),
+    subtotal: calculateSubtotal(),
+    frete: state.deliveryFee,
+    desconto: state.activeCoupon || null,
+    total: calculateSubtotal() + state.deliveryFee,
+    status: "Novo pedido",
+    data: new Date().toISOString()
+  });
+}
 
   const message = encodeURIComponent(buildWhatsAppMessage());
   
