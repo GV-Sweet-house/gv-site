@@ -1,3 +1,10 @@
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const STORE_ZIP = "24736-085";
 const STORE_COORDINATES = {
   latitude: -22.83357,
@@ -5,6 +12,7 @@ const STORE_COORDINATES = {
 };
 const FREIGHT_PRICE_PER_KM = 3;
 const coupons = window.GV_COUPONS || {};
+const db = getFirestore();
 const WHATSAPP_NUMBER = "5521992194784";
 
 const categories = ["Todos", "Bolos", "Morangos", "Brownie", "Copos", "Salgados", "Combos"];
@@ -512,86 +520,119 @@ function updateCart(productId, change) {
   renderCart();
 }
 
-function applyCoupon() {
-  const code = elements.couponInput.value.trim().toUpperCase();
+async function applyCoupon() {
+
+  const code = elements.couponInput.value
+    .trim()
+    .toUpperCase();
+
   const subtotal = calculateSubtotal();
 
   if (!code) {
+
     state.activeCoupon = null;
+
     elements.couponFeedback.textContent = "";
-    elements.couponFeedback.className = "coupon-feedback";
+
+    elements.couponFeedback.className =
+      "coupon-feedback";
+
     renderTotals();
+
     return;
   }
-
-  if (!coupons[code]) {
-    state.activeCoupon = null;
-    elements.couponFeedback.textContent = "Cupom invalido.";
-    elements.couponFeedback.className = "coupon-feedback error";
-    renderTotals();
-    return;
-  }
-
-  if (coupons[code].minSubtotal && subtotal < coupons[code].minSubtotal) {
-    state.activeCoupon = null;
-    elements.couponFeedback.textContent = `Esse cupom vale para compras acima de ${formatCurrency(
-      coupons[code].minSubtotal,
-    )}.`;
-    elements.couponFeedback.className = "coupon-feedback error";
-    renderTotals();
-    return;
-  }
-
-  state.activeCoupon = code;
-  elements.couponInput.value = code;
-  elements.couponFeedback.textContent = `${coupons[code].label} aplicado.`;
-  elements.couponFeedback.className = "coupon-feedback success";
-  renderTotals();
-}
-
-async function calculateFreight() {
-  const address = getCustomerAddress();
-  const destination = address.geocode;
-
-  if (!address.street || !address.number || !address.neighborhood || !address.city || !address.state) {
-    resetFreight();
-    elements.freightFeedback.textContent = "Informe CEP, numero e confirme cidade/bairro para calcular.";
-    elements.freightFeedback.className = "coupon-feedback error";
-    return;
-  }
-
-  if (state.deliveryCalculated && state.lastCalculatedDestination === destination) {
-    return;
-  }
-
-  elements.calculateFreightButton.disabled = true;
-  elements.searchZipButton.disabled = true;
-  elements.calculateFreightButton.textContent = "...";
-  elements.freightFeedback.textContent = "Calculando frete...";
-  elements.freightFeedback.className = "coupon-feedback";
 
   try {
-    const customerCoordinates = await fetchAddressCoordinates(destination);
-    const distanceKm = calculateDistanceKm(STORE_COORDINATES, customerCoordinates);
 
-    state.deliveryDistanceKm = distanceKm;
-    state.deliveryFee = Math.ceil(distanceKm * FREIGHT_PRICE_PER_KM);
-    state.deliveryCalculated = true;
-    state.lastCalculatedDestination = destination;
-    elements.freightFeedback.textContent = `${distanceKm.toFixed(1)} km da loja. Frete: ${formatCurrency(
-      state.deliveryFee,
-    )}.`;
-    elements.freightFeedback.className = "coupon-feedback success";
-  } catch (error) {
-    resetFreight();
-    elements.freightFeedback.textContent =
-      "Nao consegui achar esse endereco. Tente colocar rua, numero, bairro e cidade.";
-    elements.freightFeedback.className = "coupon-feedback error";
-  } finally {
-    elements.calculateFreightButton.disabled = false;
-    elements.searchZipButton.disabled = false;
-    elements.calculateFreightButton.textContent = "Calcular frete";
+    const ref = doc(db, "cupons", code);
+
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+
+      state.activeCoupon = null;
+
+      elements.couponFeedback.textContent =
+        "Cupom invalido.";
+
+      elements.couponFeedback.className =
+        "coupon-feedback error";
+
+      renderTotals();
+
+      return;
+    }
+
+    const coupon = snap.data();
+
+    if (!coupon.ativo) {
+
+      elements.couponFeedback.textContent =
+        "Cupom desativado.";
+
+      elements.couponFeedback.className =
+        "coupon-feedback error";
+
+      return;
+    }
+
+    if (coupon.usados >= coupon.limite) {
+
+      elements.couponFeedback.textContent =
+        "Cupom esgotado.";
+
+      elements.couponFeedback.className =
+        "coupon-feedback error";
+
+      return;
+    }
+
+    if (
+      coupon.minSubtotal &&
+      subtotal < coupon.minSubtotal
+    ) {
+
+      elements.couponFeedback.textContent =
+        `Pedido minimo de ${formatCurrency(
+          coupon.minSubtotal
+        )}`;
+
+      elements.couponFeedback.className =
+        "coupon-feedback error";
+
+      return;
+    }
+
+    state.activeCoupon = code;
+
+    coupons[code] = {
+      type: coupon.tipo,
+      value: coupon.desconto,
+      minSubtotal: coupon.minSubtotal || 0,
+      label: coupon.label || code,
+    };
+
+    await updateDoc(ref, {
+      usados: coupon.usados + 1,
+    });
+
+    elements.couponFeedback.textContent =
+      `${code} aplicado com sucesso.`;
+
+    elements.couponFeedback.className =
+      "coupon-feedback success";
+
     renderTotals();
+
+  } catch (error) {
+
+    console.error(error);
+
+    elements.couponFeedback.textContent =
+      "Erro ao validar cupom.";
+
+    elements.couponFeedback.className =
+      "coupon-feedback error";
   }
 }
 
