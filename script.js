@@ -1,10 +1,3 @@
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 const STORE_ZIP = "24736-085";
 const STORE_COORDINATES = {
   latitude: -22.83357,
@@ -24,7 +17,7 @@ const products = [
     category: "Morangos",
     bestSeller: true,
     image:
-      "morango.jpg",
+      "https://media.discordapp.net/attachments/1415518658960031836/1502414040897421343/486407127_18475206142064119_4931185641420393779_n.jpg?ex=6a04e59c&is=6a03941c&hm=481a0e2a5850d35065fa7d0e797f5a3dc7ecbce3e9f2946a5e305299fd354f45&=&format=webp",
   },
   {
     id: "coxinha-morango",
