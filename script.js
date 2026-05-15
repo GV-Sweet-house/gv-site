@@ -1,3 +1,12 @@
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc,
+    addDoc,
+    collection
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const STORE_ZIP = "24736-085";
 const STORE_COORDINATES = {
   latitude: -22.83357,
@@ -672,7 +681,74 @@ function buildWhatsAppMessage() {
     .join("\n");
 }
 
-function finishOrder(event) {
+async function saveOrder() {
+
+  try {
+
+    const subtotal = calculateSubtotal();
+
+    const discount =
+      calculateDiscount(
+        subtotal,
+        state.deliveryFee
+      );
+
+    const total =
+      subtotal +
+      state.deliveryFee -
+      discount;
+
+    const cart = getCartEntries();
+
+    const address =
+      getCustomerAddress();
+
+    await addDoc(
+      collection(db, "pedidos"),
+      {
+
+        cliente:
+          elements.customerName.value.trim(),
+
+        cep:
+          elements.customerZip.value.trim(),
+
+        endereco:
+          address.full,
+
+        itens: cart.map(item => ({
+          nome: item.product.name,
+          quantidade: item.quantity,
+          preco: item.product.price
+        })),
+
+        subtotal,
+        frete: state.deliveryFee,
+        desconto: discount,
+        total,
+
+        cupom:
+          state.activeCoupon || null,
+
+        criadoEm:
+          new Date()
+
+      }
+    );
+
+    console.log("Pedido salvo!");
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao salvar pedido:",
+      error
+    );
+
+  }
+}
+
+async function finishOrder(event) {
   event.preventDefault();
 
   if (!getCartEntries().length) {
@@ -691,6 +767,9 @@ function finishOrder(event) {
   }
 
   const message = encodeURIComponent(buildWhatsAppMessage());
+  
+  await saveOrder();
+  
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
 }
 
